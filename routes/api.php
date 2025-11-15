@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\{
     RegisteredUserController,
     SessionController,
 };
+use App\Http\Controllers\BrandController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,3 +38,6 @@ Route::middleware("auth:sanctum")->group(function () {
 
     Route::post("/email-verification", [EmailVerificationController::class, "verifyOtp"])->name("email.verification");
 });
+
+Route::get("/brands", [BrandController::class, "index"])->name("getAllBrands");
+Route::get("/brands/{id}", [BrandController::class, "show"])->name("getBrand");
