@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("google_id")->nullable();
             $table->enum("gender", ["male", "female"])->nullable();
             $table->string("phone_number")->nullable()->unique();
+            $table->enum("account_type", ["customer", "vendor", "admin"])->default("customer");
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

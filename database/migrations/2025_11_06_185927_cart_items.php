@@ -18,9 +18,6 @@ return new class extends Migration
             $table->foreignId(Cart::class)->constrained("carts")->onDelete("cascade");
             $table->foreignId(Product::class)->constrained("products")->onDelete("cascade");
             $table->integer("quantity")->default(0);
-            $table->decimal("unit_price", 10, 2);
-            $table->decimal("total", 10, 2);
-            $table->json("variant_attributes")->nullable();
             $table->timestamps();
 
             $table->unique([Cart::class, Product::class]);

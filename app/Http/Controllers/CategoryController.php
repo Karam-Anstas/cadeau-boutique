@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -11,7 +13,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = DB::table("categories")->select("id", "name", "image", "description")->get();
+
+        return response()->json([
+            "status" => true,
+            "data" => CategoryResource::collection($categories),
+            "code" => 200,
+        ]);
     }
 
     /**
@@ -35,7 +43,31 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $category = DB::table("categories")->select("id", "name", "image", "description", "parent_id")->where("id", "=", $id)->first();
+        $subCategories = DB::table("categories")->select("id", "name", "image", "description", "parent_id")->where("parent_id", "=", $id)->get();
+
+        $products = DB::table("products")->select("id", "name", "description", "price", "product_quantity", "features", "category_id", "brand_id")->where("category_id", "=", $id)->get();
+
+        return response()->json([
+            "status" => true,
+            "data" => [
+                "category" => new CategoryResource($category),
+                "subcategories" => CategoryResource::collection($subCategories),
+                "products" => $products->map(function ($product) {
+                    return [
+                        "productId" => $product->id,
+                        "productName" => $product->name,
+                        "productDescription" => $product->description,
+                        "productPrice" => $product->price,
+                        "productQuantity" => $product->product_quantity,
+                        "productFeatures" => $product->features,
+                        "categoryId" => $product->category_id,
+                        "brandId" => $product->brand_id,
+                    ];
+                })
+            ],
+            "code" => 200
+        ], 200);
     }
 
     /**

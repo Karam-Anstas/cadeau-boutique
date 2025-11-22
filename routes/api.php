@@ -7,7 +7,13 @@ use App\Http\Controllers\Auth\{
     RegisteredUserController,
     SessionController,
 };
-use App\Http\Controllers\BrandController;
+use App\Http\Controllers\{
+    BrandController,
+    CategoryController,
+    OccasionController,
+    VendorController,
+};
+use App\Http\Controllers\Admin\AdminVendorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,3 +47,16 @@ Route::middleware("auth:sanctum")->group(function () {
 
 Route::get("/brands", [BrandController::class, "index"])->name("getAllBrands");
 Route::get("/brands/{id}", [BrandController::class, "show"])->name("getBrand");
+Route::get("/occasions", [OccasionController::class, "index"])->name("getOccasions");
+Route::get("/occasions/{id}", [OccasionController::class, "show"])->name("getOccasion");
+Route::get("/categories", [CategoryController::class, "index"])->name("getCategories");
+Route::get("/categories/{id}", [CategoryController::class, "show"])->name("getCategory");
+
+Route::post("/vendor/apply", [VendorController::class, "apply"])->middleware("auth:sanctum");
+
+Route::get("/admin/vendors/pending", [AdminVendorController::class, "pendingVendors"]);
+
+Route::post("/admin/vendors/{vendorId}/approve", [AdminVendorController::class, "approve"]);
+
+// Reject vendor
+Route::post("/admin/vendors/{vendorId}/reject", [AdminVendorController::class, "reject"]);

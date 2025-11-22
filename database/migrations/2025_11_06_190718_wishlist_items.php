@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId(Wishlist::class)->constrained("wishlists")->onDelete("cascade");
             $table->foreignId(Product::class)->constrained("products")->onDelete("cascade");
-            $table->json("variant_attributes")->nullable();
             $table->timestamps();
 
             $table->unique([Wishlist::class, Product::class]);

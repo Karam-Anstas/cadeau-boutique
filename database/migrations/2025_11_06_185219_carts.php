@@ -15,10 +15,6 @@ return new class extends Migration
         Schema::create("carts", function (Blueprint $table) {
             $table->id();
             $table->foreignId(User::class)->constrained("users")->onDelete("cascade");
-            $table->decimal("subtotal", 10, 2)->default(0);
-            $table->decimal("tax_amount", 10, 2)->default(0);
-            $table->decimal("shipping_amount", 10, 2)->default(0);
-            $table->decimal("total", 10, 2)->default(0);
             $table->integer("items_count")->default(0);
             $table->timestamps();
 

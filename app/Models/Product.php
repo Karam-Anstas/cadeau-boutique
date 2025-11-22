@@ -16,6 +16,7 @@ class Product extends Model
         "name",
         "description",
         "price",
+        "status",
         "product_quantity",
         "in_stock",
         "features",
@@ -44,5 +45,15 @@ class Product extends Model
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
     }
 }

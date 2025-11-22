@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("name");
             $table->text("description");
             $table->decimal("price", 10, 2);
+            $table->enum("status", ["pending", "approved", "rejected"])->default("pending");
             $table->integer("product_quantity")->default(0);
             $table->text("features")->nullable();
             $table->boolean("in_stock")->default(false);

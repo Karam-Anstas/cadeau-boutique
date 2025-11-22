@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create("wishlists", function (Blueprint $table) {
             $table->id();
             $table->foreignId(User::class)->constrained("users")->onDelete("cascade");
+            $table->integer("items_count")->default(0);
             $table->timestamps();
 
             $table->unique([User::class]);

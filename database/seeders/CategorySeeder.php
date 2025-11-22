@@ -79,13 +79,6 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            "name" => "Smartwatches",
-            "description" => "smartwatches for tracking your health",
-            "image" => null,
-            "parent_id" => $electronics->id,
-        ]);
-
-        Category::create([
             "name" => "Men's Clothing",
             "description" => "Clothing for men",
             "image" => null,

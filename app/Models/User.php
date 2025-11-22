@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,7 +26,9 @@ class User extends Authenticatable
         'password',
         "gender",
         "google_id",
-        "phone_number"
+        "phone_number",
+        "account_type",
+        "vendor_id"
     ];
 
     /**
@@ -61,5 +64,8 @@ class User extends Authenticatable
         return $this->hasOne(Wishlist::class);
     }
 
-    
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 }
