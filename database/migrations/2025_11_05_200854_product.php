@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text("features")->nullable();
             $table->boolean("in_stock")->default(false);
             $table->boolean("has_variants")->default(false);
-            $table->json("variants")->nullable();
+            $table->longText("variants")->nullable();
             $table->timestamps();
         });
     }

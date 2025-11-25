@@ -26,6 +26,10 @@ class Product extends Model
         "brand_id"
     ];
 
+    protected $casts = [
+        "variants" => "array"
+    ];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

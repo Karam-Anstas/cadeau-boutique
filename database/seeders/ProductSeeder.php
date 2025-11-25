@@ -32,7 +32,7 @@ class ProductSeeder extends Seeder
         $fathersday = Occasion::where("name", "Father's day")->first();
         $christmas = Occasion::where("name", "Christmas")->first();
 
-        /* $raffoulCakes = Product::create([
+        $raffoulCakes = Product::create([
             "name" => "Chocolate Cake.",
             "description" => "Premium chocolate cake from Raffoul with rich galaxy chocolate layers and creamy frosting.",
             "price" => 10.99,
@@ -40,29 +40,29 @@ class ProductSeeder extends Seeder
             "in_stock" => true,
             "features" => "Galaxy chocolate flavor, with size of 22cm",
             "has_variants" => true,
-            "variants" => [
+            "variants" => collect([
                 [
                     "id" => "var1",
                     "price" => 7.99,
                     "product_quantity" => 1,
                     "in_stock" => true,
-                    "features" => ["size" => "17cm", "decoration" => "standerd"]
+                    "features" => collect(["size" => "17cm", "decoration" => "standerd"])
                 ],
                 [
                     "id" => "var2",
                     "price" => 10.99,
                     "product_quantity" => 3,
                     "in_stock" => true,
-                    "attributes" => ["size" => "22cm", "decoration" => "fresh fruit"]
+                    "attributes" => collect(["size" => "22cm", "decoration" => "fresh fruit"])
                 ],
                 [
                     "id" => "var3",
                     "price" => 15.99,
                     "product_quantity" => 0,
                     "in_stock" => false,
-                    "attributes" => ["size" => "30cm", "decoration" => "nuts"]
+                    "attributes" => collect(["size" => "30cm", "decoration" => "nuts"])
                 ],
-            ],
+            ]),
             "category_id" => $cakes->id,
             "brand_id" => $raffoul->id
         ]);
@@ -104,7 +104,7 @@ class ProductSeeder extends Seeder
             "brand_id" => $raffoul->id
         ]);
 
-        $raffoulCakes->occasions()->attach([$birthday->id, $christmas->id]); */
+        $raffoulCakes->occasions()->attach([$birthday->id, $christmas->id]);
 
         $alMahabeFlowers = Product::create([
             "name" => "Rose Bouquet",
