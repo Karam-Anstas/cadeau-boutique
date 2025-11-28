@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
@@ -37,14 +39,34 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         if (!Auth::attempt($this->only("email", "password"), $this->boolean("remember"))) {
+
             RateLimiter::hit($this->throttleKey());
 
-            throw ValidationException::withMessages([
-                "email" => __("auth.failed"),
-            ]);
+            throw new HttpResponseException(
+                response()->json([
+                    "status" => false,
+                    "data" => null,
+                    "message" => "These credentials do not match our records.",
+                    "code" => 401
+                ], 401)
+            );
         }
 
         RateLimiter::clear($this->throttleKey());
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $messages = implode("\n", $validator->errors()->all());
+
+        $response = response()->json([
+            "status" => false,
+            "data" => null,
+            "message" => $messages,
+            "code" => 422
+        ], 422);
+
+        throw new ValidationException($validator, $response);
     }
 
     public function ensureIsNotRateLimited(): void

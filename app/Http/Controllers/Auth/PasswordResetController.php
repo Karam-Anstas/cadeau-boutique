@@ -10,19 +10,33 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class PasswordResetController extends Controller
 {
     public function sendResetOtp(Request $req): JsonResponse
     {
-        $req->validate([
+
+        $validator = Validator::make($req->all(), [
             "email" => ["required", "email", "exists:users,email"],
         ]);
+
+        if ($validator->fails()) {
+            $messages = implode("\n", $validator->errors()->all());
+
+            return response()->json([
+                "status" => false,
+                "data" => null,
+                "message" => $messages,
+                "code" => 422
+            ], 422);
+        }
 
         $user = User::where("email", $req->email)->first();
 
         if (!$user) return response()->json([
             "status" => false,
+            "data" => null,
             "message" => "User not found",
             "code" => 404,
         ], 404);
@@ -49,11 +63,24 @@ class PasswordResetController extends Controller
 
     public function resetPassword(Request $req): JsonResponse
     {
-        $req->validate([
+
+        $validator = Validator::make($req->all(), [
             "userId" => ["required", "exists:users,id"],
             "otp" => ["required", "string"],
             "password" => ["required", "confirmed", "min:8"],
         ]);
+
+
+        if ($validator->fails()) {
+            $messages = implode("\n", $validator->errors()->all());
+
+            return response()->json([
+                "status" => false,
+                "data" => null,
+                "message" => $messages,
+                "code" => 422
+            ], 422);
+        }
 
         $otpReq = UserOtps::where("user_id", $req->userId)
             ->where("otp", $req->otp)
@@ -61,7 +88,12 @@ class PasswordResetController extends Controller
             ->first();
 
         if (!$otpReq) {
-            return response()->json(["message" => "Invalid or expired OTP"], 400);
+            return response()->json([
+                "status" => false,
+                "data" => null,
+                "message" => "Invalid or expired OTP.",
+                "code" => 400
+            ], 400);
         }
 
         $user = User::find($req->userId);

@@ -77,34 +77,102 @@ class ProductSeeder extends Seeder
             "in_stock" => true,
             "features" => "Galaxy chocolate flavor, with size of 22cm",
             "has_variants" => true,
-            "variants" => [
+            "variants" => collect([
                 [
                     "id" => "var1",
                     "price" => 7.99,
                     "product_quantity" => 1,
                     "in_stock" => true,
-                    "features" => ["size" => "17cm", "decoration" => "standerd"]
+                    "features" => collect(["size" => "17cm", "decoration" => "standerd"])
                 ],
                 [
                     "id" => "var2",
                     "price" => 10.99,
                     "product_quantity" => 3,
                     "in_stock" => true,
-                    "attributes" => ["size" => "22cm", "decoration" => "fresh fruit"]
+                    "attributes" => collect(["size" => "22cm", "decoration" => "fresh fruit"])
                 ],
                 [
                     "id" => "var3",
                     "price" => 15.99,
                     "product_quantity" => 0,
                     "in_stock" => false,
-                    "attributes" => ["size" => "30cm", "decoration" => "nuts"]
+                    "attributes" => collect(["size" => "30cm", "decoration" => "nuts"])
                 ],
-            ],
+            ]),
             "category_id" => $cakes->id,
             "brand_id" => $raffoul->id
         ]);
 
         $raffoulCakes->occasions()->attach([$birthday->id, $christmas->id]);
+
+        $nahhasCake = Product::create([
+            "name" => "Nahhas Celebration Cake",
+            "description" => "Elegant celebration cake from Nahhas with multiple flavor options and beautiful decorations. A perfect centerpiece for any party.",
+            "price" => 65.00,
+            "product_quantity" => 6,
+            "in_stock" => true,
+            "features" => "Many flavors, many sizes, customizable designs",
+            "has_variants" => true,
+            "variants" => collect([
+                [
+                    "id" => "var1",
+                    "price" => 65.00,
+                    "product_quantity" => 3,
+                    "in_stock" => true,
+                    "attributes" => collect(["flavor" => "Vanilla", "filling" => "Buttercream"])
+                ],
+                [
+                    "id" => "var2",
+                    "price" => 70.00,
+                    "product_quantity" => 2,
+                    "in_stock" => true,
+                    "attributes" => collect(["flavor" => "Chocolate", "filling" => "Chocolate ganache"])
+                ],
+                [
+                    "id" => "var3",
+                    "price" => 75.00,
+                    "product_quantity" => 1,
+                    "in_stock" => true,
+                    "attributes" => collect(["flavor" => "Red Velvet", "filling" => "Buttercream"])
+                ]
+            ]),
+            'category_id' => $cakes->id,
+            'brand_id' => $nahhas->id
+        ]);
+
+        $nahhasCake->occasions()->attach([$birthday->id, $mothersday->id, $christmas->id]);
+
+        // Product 3: Al-Mahabe Flower Bouquet
+        $alMahabeFlowers = Product::create([
+            "name" => "Al-Mahabe Premium Rose Bouquet",
+            "description" => "Exquisite rose bouquet from Al-Mahabe featuring the finest imported roses, expertly arranged for maximum impact and longevity.",
+            "price" => 80.00,
+            "product_quantity" => 14,
+            "in_stock" => false,
+            "features" => "Premium Imported Roses, 15 stems",
+            "has_variants" => true,
+            "variants" => collect([
+                [
+                    "id" => "var1",
+                    "price" => 80.00,
+                    "product_quantity" => 8,
+                    "in_stock" => true,
+                    "attributes" => collect(["color" => "Red", "style" => "Classic"])
+                ],
+                [
+                    "id" => "var2",
+                    "price" => 85.00,
+                    "product_quantity" => 6,
+                    "in_stock" => true,
+                    "attributes" => collect(["color" => "Pink", "style" => "Modern"])
+                ],
+            ]),
+            "category_id" => $flowers->id,
+            "brand_id" => $alMahabe->id
+        ]);
+
+        $alMahabeFlowers->occasions()->attach([$mothersday->id, $birthday->id, $christmas->id]);
 
         $alMahabeFlowers = Product::create([
             "name" => "Rose Bouquet",

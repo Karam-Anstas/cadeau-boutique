@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class SessionController extends Controller
 {
@@ -27,7 +28,7 @@ class SessionController extends Controller
             ],
             "message" => "Login successful",
             "code" => 200
-        ],200);
+        ], 200);
     }
 
     public function destroy(Request $request): JsonResponse
